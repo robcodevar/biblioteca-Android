@@ -23,7 +23,7 @@ object EndPoints{
     const val ID = "id"
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@ExperimentalComposeUiApi
 @Composable
 fun NavGraph(){
     val navController = rememberNavController()

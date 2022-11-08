@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,9 +37,9 @@ fun BookListScreen(viewModel: MainViewModel, actions: MainActions){
     }
 
     when(val result = libros){
+        ViewState.Loading -> Text(text = "Cargando" , color =  Color.Black)
         ViewState.Empty -> Text("No se encontraron resultados")
-        is ViewState.Error -> Text(text = "Error encontrado: ${result.exception}")
-        ViewState.Loading -> Text(text = "Cargando")
+        is ViewState.Error -> Text(text = "Error encontrado: ${result.exception}", color = Color.Green)
         is ViewState.Success -> {
             BookList(result.data, actions)
         }
@@ -52,6 +53,7 @@ fun BookList(bookList: List<BookItem>, actions: MainActions){
         mutableStateOf("")
     }
     val listState = rememberLazyListState()
+
     LazyColumn(state = listState ,
                 contentPadding = PaddingValues(top = 24.dp , bottom = 24.dp) ){
 
@@ -59,7 +61,7 @@ fun BookList(bookList: List<BookItem>, actions: MainActions){
         item {
             Text(text = "Explore miles de\nlibros en go",
                 style = MaterialTheme.typography.h5,
-                color = MaterialTheme.colors.onPrimary,
+                color = MaterialTheme.colors.primary,
                 maxLines = 2,
                 modifier = Modifier.padding(start = 16.dp , end= 20.dp , bottom = 24.dp)
             )
@@ -82,8 +84,7 @@ fun BookList(bookList: List<BookItem>, actions: MainActions){
         }
         // All books list view
         items(bookList){ book ->
-            Log.d("books","books son : ${book.title}")
-            ItemBookList(book.title , book.author , book.authors ,book.thumbnailUrl ,book.categories , onItemClick = {
+            ItemBookList(book.title , book.authors.toString() ,book.thumbnailUrl ,book.categories , onItemClick = {
                 actions.gotoBookDetails.invoke(book.isbn)
             })
         }

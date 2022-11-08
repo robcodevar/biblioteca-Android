@@ -19,22 +19,29 @@ import coil.request.ImageRequest
 import com.example.mybooks.ui.theme.primary
 import com.example.mybooks.ui.theme.text
 import com.example.mybooks.ui.theme.typogra
+import com.example.mybooks.utils.coloredShadow
 import com.google.accompanist.flowlayout.FlowRow
+
 
 @Composable
 fun ItemBookList(
     title: String,
-    author :String ,
-    authors : List<String> ,
+    author: String,
     thumbnailUrl: String,
     categories: List<String>,
-    onItemClick : () -> Unit
+    onItemClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .clickable(onClick = onItemClick)
             .background(MaterialTheme.colors.onSurface)
+            .coloredShadow(color = MaterialTheme.colors.primary,
+                alpha = 0.1F ,
+                shadowRadius = 28.dp,
+                offsetX = 0.dp,
+                 offsetY = 4.dp)
             .padding(16.dp)
+
     ){
 
         // Row = Image + content
@@ -59,7 +66,7 @@ fun ItemBookList(
             Spacer(modifier = Modifier.width(16.dp))
             // Content
             Column {
-                Text(text = "by".plus(authors[0]), style = typogra.caption, color = text.copy(0.7F))
+                Text(text = "by : ".plus(author), style = typogra.caption, color = text.copy(0.7F))
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = title, style = typogra.subtitle1, color = text)
                 Spacer(modifier = Modifier.height(12.dp))
@@ -83,7 +90,7 @@ fun ChipView(category: String) {
             .padding(start = 12.dp, end = 12.dp, top = 5.dp, bottom = 5.dp),
             contentAlignment = Alignment.Center
         ){
-        Text( text = "Minimalismo :" , style = typogra.caption, color = primary)
+        Text( text = category , style = typogra.caption, color = primary)
     }
 }
 
