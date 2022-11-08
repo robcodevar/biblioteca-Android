@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyBooks</string>
+    <string name="texto_backbutton">Boton volver atras</string>
+    <string name="book_details">Detalles de libros</string>
+    <string name="book_list">Lista de libros</string>
+    <string name="books_search">Buscar los libros ...</string>
+</resources>
