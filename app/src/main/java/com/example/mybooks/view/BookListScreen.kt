@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -76,11 +78,14 @@ fun BookList(bookList: List<BookItem>, actions: MainActions){
                     search.value = it
                 })
         }
+        item { 
+            Spacer(modifier = Modifier.height(8.dp))
+        }
         //search results title
         item{
             Text(text = "Famous books",
             style= MaterialTheme.typography.subtitle1,
-            color = MaterialTheme.colors.onPrimary,
+            color = MaterialTheme.colors.primaryVariant.copy(0.5F),
             textAlign = TextAlign.Start
             )
         }

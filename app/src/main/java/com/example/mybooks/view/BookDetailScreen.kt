@@ -68,7 +68,9 @@ fun BookDetails(viewModel: MainViewModel) {
                         color = MaterialTheme.colors.primaryVariant.copy(0.7F),
                         modifier = Modifier.padding(start = 20.dp, end = 20.dp)
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
+
             }
 
         }

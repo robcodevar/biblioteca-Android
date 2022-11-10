@@ -87,7 +87,7 @@ fun BookImageContentView(
             Text(text= title ,
                 style = typogra.h6 ,
                 textAlign = TextAlign.Center ,
-                color = MaterialTheme.colors.primaryVariant
+                color = MaterialTheme.colors.primaryVariant.copy(0.2F)
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -95,7 +95,7 @@ fun BookImageContentView(
             Text(text = authors.toString(),
                 style =  typogra.caption,
                 textAlign = TextAlign.Center,
-                color = text.copy(0.7F)
+                color = MaterialTheme.colors.primaryVariant.copy(0.7F)
             )
 
             Spacer(modifier = Modifier.height(12.dp))
