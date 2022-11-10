@@ -13,7 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.mybooks.view.BookDetailScreen
+import com.example.mybooks.view.BookDetailsScreen
 import com.example.mybooks.view.BookListScreen
 import com.example.mybooks.viewmodel.MainViewModel
 
@@ -50,7 +50,7 @@ fun NavGraph(){
                 val isbnNo = it.arguments?.getString(EndPoints.ID)
                     ?: throw java.lang.IllegalStateException(" ' El isbn del libro ' no debe ser nulo")
                 viewModel.getBookByID( context = context ,  isbnNO = isbnNo)
-                BookDetailScreen(viewModel,isbnNo,  actions)
+                BookDetailsScreen(viewModel,  actions)
             }
 
     }

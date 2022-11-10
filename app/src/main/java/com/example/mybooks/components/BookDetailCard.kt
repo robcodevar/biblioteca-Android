@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -30,49 +31,89 @@ fun bookDetailCard(
             * **/
 
         Box( Modifier
-            .wrapContentSize()
-            .padding(start = 16 .dp , end = 16.dp)
-            .background(color = MaterialTheme.colors.onSurface)
-            .clip(RoundedCornerShape(7.dp, 7.dp, 7.dp, 7.dp))
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(start = 20.dp, end = 16.dp, top = 40.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = Color.Transparent),
+            contentAlignment = Alignment.Center
         ){
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                AsyncImage(model = thumbnailUrl,
-                    contentDescription = title,
-                    modifier = Modifier
-                        .size(240.dp, 124.dp)
-                        .padding(12.dp)
-                        .offset(y = (-30).dp)
-                )
-
-            Spacer(modifier = Modifier.height(10.dp))
-            //Contenido:
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            // white box layout
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(MaterialTheme.colors.onSurface)
             )
-            {
-                Text(text = authors.toString(),
-                    style =  typogra.caption,
-                    textAlign = TextAlign.Center,
-                    color = text.copy(0.7F)
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(text= title ,
-                    style = typogra.subtitle1 ,
-                    textAlign = TextAlign.Center ,
-                    color = text
-                )
 
-                Spacer(modifier = Modifier.height(12.dp))
+            // Content
+            BookImageContentView(title, authors, thumbnailUrl, categories)
+        }
+}
 
-                FlowRow() {
-                    categories.forEach{ it ->
-                        ChipView(category = it)
-                    }
+
+
+@Composable
+fun BookImageContentView(
+    title: String,
+    authors: List<String>,
+    thumbnailUrl: String,
+    categories: List<String>
+) {
+
+    // content
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+        AsyncImage(model = thumbnailUrl,
+            contentDescription = title,
+            modifier = Modifier
+                .size(240.dp, 140.dp)
+        // no usar offset ni padding
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        //Contenido:
+        Column( modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.onSurface)
+            .padding(bottom = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
+        {
+            Text(text= title ,
+                style = typogra.h6 ,
+                textAlign = TextAlign.Center ,
+                color = MaterialTheme.colors.primaryVariant
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(text = authors.toString(),
+                style =  typogra.caption,
+                textAlign = TextAlign.Center,
+                color = text.copy(0.7F)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            FlowRow() {
+                categories.forEach{
+                    ChipView(category = it)
                 }
-
             }
 
         }
 
     }
+
 }
+
+/**
+ * Heybooks is a sample application built to demonstrate the use of Jetpack compose Declarative UI Toolkit with MVVM Architecture for Android 🍄
+ *
+ * : Insane developer
+ */

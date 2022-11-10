@@ -14,47 +14,54 @@ import kotlinx.serialization.json.Json
 
 
 class MainViewModel : ViewModel() {
+
     private val _viewState = MutableStateFlow<ViewState>(ViewState.Loading)
     private val _detailViewState = MutableStateFlow<DetailViewState>(DetailViewState.Loading)
-    val books = _viewState.asStateFlow()
-    val booksDetails = _detailViewState.asStateFlow()
 
-// ayuda a formatear el Json
+    val books = _viewState.asStateFlow()
+    val bookDetails = _detailViewState.asStateFlow()
+
+    // Helps to format the JSON
     val format = Json {
         ignoreUnknownKeys = true
         prettyPrint = true
         isLenient = true
     }
 
-    //obtener toda la data de el book.json
-    fun getAllBooks(context : Context) = viewModelScope.launch{
+
+    // get all the data from the Book.json
+    fun getAllBooks(context: Context) = viewModelScope.launch {
         try {
-            // lee el archivo Json
-            val myJson = context.assets.open("books.json").bufferedReader().use{
+
+            // read JSON File
+            val myJson = context.assets.open("books.json").bufferedReader().use {
                 it.readText()
-                //Formatea el Json
             }
+
+            // format JSON
             val bookList = format.decodeFromString<List<BookItem>>(myJson)
             _viewState.value = ViewState.Success(bookList)
 
-        }catch (e:java.lang.Exception){
+        } catch (e: Exception){
             _viewState.value = ViewState.Error(e)
         }
     }
 
-    fun getBookByID(context: Context, isbnNO: String )= viewModelScope.launch {
+
+    // get book by ID
+    fun getBookByID(context: Context, isbnNO:String) = viewModelScope.launch {
         try {
-            // lee el archivo Json
-            val myJson = context.assets.open("books.json").bufferedReader().use{
+
+            // read JSON File
+            val myJson = context.assets.open("books.json").bufferedReader().use {
                 it.readText()
             }
-            //Formatea el Json
-            val bookList = format.decodeFromString<List<BookItem>>(myJson).filter{
-                it.isbn.contentEquals(isbnNO)}.first()
 
+            // format JSON
+            val bookList = format.decodeFromString<List<BookItem>>(myJson) .filter { it.isbn.contentEquals(isbnNO)}.first()
             _detailViewState.value = DetailViewState.Success(bookList)
 
-        }catch (e:java.lang.Exception){
+        } catch (e: Exception){
             _detailViewState.value = DetailViewState.Error(e)
         }
     }
