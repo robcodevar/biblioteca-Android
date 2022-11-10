@@ -34,18 +34,22 @@ fun ItemBookList(
     Card(
         modifier = Modifier
             .clickable(onClick = onItemClick)
-            .background(MaterialTheme.colors.onSurface)
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colors.background)
             .coloredShadow(color = MaterialTheme.colors.primary,
-                alpha = 0.1F ,
-                shadowRadius = 28.dp,
+                alpha = 0.050F ,
+                shadowRadius = 4.dp,
+                borderRadius = 0.dp,
                 offsetX = 0.dp,
-                 offsetY = 4.dp)
-            .padding(16.dp)
+                offsetY = 4.dp)
+            .padding(12.dp)
 
     ){
 
         // Row = Image + content
-        Row(modifier = Modifier.fillMaxWidth() ,
+        Row(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colors.onSurface) ,
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -53,22 +57,22 @@ fun ItemBookList(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
-                    .crossfade(5000)
+                    .crossfade(2000)
                     .build(),
                 contentDescription = null,
                 modifier = Modifier
+                    .clip(RoundedCornerShape(15.dp))
                     .size(98.dp, 145.dp)
-                    .background(Color.Black)
+                    .background(Color.White)
                     .padding(12.dp)
-                    .clip(RoundedCornerShape(5.dp))
             )
 
             Spacer(modifier = Modifier.width(16.dp))
             // Content
             Column {
-                Text(text = "by : ".plus(author), style = typogra.caption, color = text.copy(0.7F))
+                Text(text = "by : ".plus(author), style = typogra.caption, color = MaterialTheme.colors.primaryVariant)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = title, style = typogra.subtitle1, color = text)
+                Text(text = title, style = typogra.subtitle1, color =  MaterialTheme.colors.primaryVariant)
                 Spacer(modifier = Modifier.height(12.dp))
                 FlowRow() {
                     categories.forEach{ it ->

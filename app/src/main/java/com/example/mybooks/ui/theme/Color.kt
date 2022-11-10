@@ -9,7 +9,7 @@ val Teal200 = Color(0xFF03DAC5)
 
 //day colors
 val card = Color(0xFFFFFFFF)
-val background = Color(0xFFF9F9F9)
+val background = Color(0xFFF3F7F9)
 val primary = Color(0xFF006AF6)
 val text = Color(0xFF000000)
 //night colors

@@ -17,7 +17,12 @@ import com.example.mybooks.ui.theme.typogra
 import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
-fun bookDetailCard(){
+fun bookDetailCard(
+    title: String,
+    authors: List<String>,
+    thumbnailUrl: String,
+    categories: List<String>
+) {
                 /**
             * CardView
              * - Image
@@ -31,8 +36,8 @@ fun bookDetailCard(){
             .clip(RoundedCornerShape(7.dp, 7.dp, 7.dp, 7.dp))
         ){
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                AsyncImage(model = "https://loremflickr.com/320/240",
-                    contentDescription = null,
+                AsyncImage(model = thumbnailUrl,
+                    contentDescription = title,
                     modifier = Modifier
                         .size(240.dp, 124.dp)
                         .padding(12.dp)
@@ -45,20 +50,26 @@ fun bookDetailCard(){
                 horizontalAlignment = Alignment.CenterHorizontally
             )
             {
-                Text(text = "con Roberto Vargas",
+                Text(text = authors.toString(),
                     style =  typogra.caption,
                     textAlign = TextAlign.Center,
                     color = text.copy(0.7F)
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(text="Más de menos" , style = typogra.subtitle1 , textAlign = TextAlign.Center , color = text )
+                Text(text= title ,
+                    style = typogra.subtitle1 ,
+                    textAlign = TextAlign.Center ,
+                    color = text
+                )
+
                 Spacer(modifier = Modifier.height(12.dp))
-                ChipView("hola jaja")
+
                 FlowRow() {
-//                    categories.forEach{ it ->
-//                        ChipView(category = it)
-//                    }
+                    categories.forEach{ it ->
+                        ChipView(category = it)
+                    }
                 }
+
             }
 
         }

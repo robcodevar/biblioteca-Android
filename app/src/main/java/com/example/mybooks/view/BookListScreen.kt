@@ -2,6 +2,7 @@ package com.example.mybooks.view
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,8 +29,7 @@ import com.example.mybooks.viewmodel.MainViewModel
 @ExperimentalComposeUiApi
 @Composable
 fun BookListScreen(viewModel: MainViewModel, actions: MainActions){
-    val context = LocalContext.current
-    viewModel.getAllBooks(context = context )
+
     var libros by remember { mutableStateOf<ViewState>(ViewState.Empty) }
     LaunchedEffect( Unit ){
         libros = viewModel.books.value
@@ -49,29 +48,32 @@ fun BookListScreen(viewModel: MainViewModel, actions: MainActions){
 @ExperimentalComposeUiApi
 @Composable
 fun BookList(bookList: List<BookItem>, actions: MainActions){
-    val input = remember {
+    val search = remember {
         mutableStateOf("")
     }
     val listState = rememberLazyListState()
 
     LazyColumn(state = listState ,
-                contentPadding = PaddingValues(top = 24.dp , bottom = 24.dp) ){
+                contentPadding = PaddingValues(top = 24.dp , bottom = 24.dp),
+        modifier = Modifier.background(MaterialTheme.colors.background)
+    ){
 
         // title
         item {
-            Text(text = "Explore miles de\nlibros en go",
+            Text(text = stringResource(id = R.string.text_title),
+                textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.h5,
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colors.primaryVariant,
                 maxLines = 2,
-                modifier = Modifier.padding(start = 16.dp , end= 20.dp , bottom = 24.dp)
+                modifier = Modifier.padding(start = 16.dp , end= 24.dp , bottom = 24.dp)
             )
         }
         // search
         item {
             TextInputField(label = stringResource(R.string.books_search) ,
-                value = input.value,
+                value = search.value,
                 onValueChanged = {
-                    input.value = it
+                    search.value = it
                 })
         }
         //search results title
@@ -83,7 +85,8 @@ fun BookList(bookList: List<BookItem>, actions: MainActions){
             )
         }
         // All books list view
-        items(bookList){ book ->
+        items(bookList.filter{ it.title.contains(search.value , ignoreCase = true) } ){ book ->
+            Log.d("books ","libros son de tipo ${book.title}")
             ItemBookList(book.title , book.authors.toString() ,book.thumbnailUrl ,book.categories , onItemClick = {
                 actions.gotoBookDetails.invoke(book.isbn)
             })

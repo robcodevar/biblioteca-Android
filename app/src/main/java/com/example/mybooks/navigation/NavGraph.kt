@@ -49,8 +49,8 @@ fun NavGraph(){
                 val viewModel = hiltViewModel<MainViewModel>(it)
                 val isbnNo = it.arguments?.getString(EndPoints.ID)
                     ?: throw java.lang.IllegalStateException(" ' El isbn del libro ' no debe ser nulo")
-
-                BookDetailScreen(viewModel, actions)
+                viewModel.getBookByID( context = context ,  isbnNO = isbnNo)
+                BookDetailScreen(viewModel,isbnNo,  actions)
             }
 
     }

@@ -1,5 +1,6 @@
 package com.example.mybooks.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -12,10 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mybooks.R
+import com.example.mybooks.navigation.MainActions
 import com.example.mybooks.ui.theme.typogra
 
 @Composable
-fun topBar(title:String){
+fun topBar(title:String,
+           action : MainActions){
+
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, end = 16.dp),
@@ -23,7 +27,10 @@ fun topBar(title:String){
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(imageVector = Icons.Default.ArrowBack ,
-            contentDescription = stringResource(R.string.texto_backbutton)
+            contentDescription = stringResource(    R.string.texto_backbutton),
+            modifier = Modifier.clickable (
+                onClick = action.upPress
+            )
         )
 
         Spacer(modifier = Modifier.width(12.dp))
