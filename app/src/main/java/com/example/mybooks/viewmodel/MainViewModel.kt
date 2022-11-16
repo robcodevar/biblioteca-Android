@@ -32,7 +32,6 @@ class MainViewModel : ViewModel() {
     // get all the data from the Book.json
     fun getAllBooks(context: Context) = viewModelScope.launch {
         try {
-
             // read JSON File
             val myJson = context.assets.open("books.json").bufferedReader().use {
                 it.readText()
@@ -42,14 +41,14 @@ class MainViewModel : ViewModel() {
             val bookList = format.decodeFromString<List<BookItem>>(myJson)
             _viewState.value = ViewState.Success(bookList)
 
-        } catch (e: Exception){
+        } catch (e: Exception) {
             _viewState.value = ViewState.Error(e)
         }
     }
 
 
     // get book by ID
-    fun getBookByID(context: Context, isbnNO:String) = viewModelScope.launch {
+    fun getBookByID(context: Context, isbnNO: String) = viewModelScope.launch {
         try {
 
             // read JSON File
@@ -58,10 +57,11 @@ class MainViewModel : ViewModel() {
             }
 
             // format JSON
-            val bookList = format.decodeFromString<List<BookItem>>(myJson) .filter { it.isbn.contentEquals(isbnNO)}.first()
+            val bookList = format.decodeFromString<List<BookItem>>(myJson)
+                .filter { it.isbn.contentEquals(isbnNO) }.first()
             _detailViewState.value = DetailViewState.Success(bookList)
 
-        } catch (e: Exception){
+        } catch (e: Exception) {
             _detailViewState.value = DetailViewState.Error(e)
         }
     }

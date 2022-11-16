@@ -1,5 +1,6 @@
 package com.example.mybooks.components
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.mybooks.ui.theme.text
 import com.example.mybooks.ui.theme.typogra
 import com.google.accompanist.flowlayout.FlowRow
 

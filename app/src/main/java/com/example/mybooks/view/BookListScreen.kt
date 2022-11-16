@@ -30,17 +30,20 @@ import com.example.mybooks.viewmodel.MainViewModel
 @SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalComposeUiApi
 @Composable
-fun BookListScreen(viewModel: MainViewModel, actions: MainActions){
+fun BookListScreen(viewModel: MainViewModel, actions: MainActions) {
 
     var libros by remember { mutableStateOf<ViewState>(ViewState.Empty) }
-    LaunchedEffect( Unit ){
+    LaunchedEffect(Unit) {
         libros = viewModel.books.value
     }
 
-    when(val result = libros){
-        ViewState.Loading -> Text(text = "Cargando" , color =  Color.Black)
+    when (val result = libros) {
+        ViewState.Loading -> Text(text = "Cargando", color = Color.Black)
         ViewState.Empty -> Text("No se encontraron resultados")
-        is ViewState.Error -> Text(text = "Error encontrado: ${result.exception}", color = Color.Green)
+        is ViewState.Error -> Text(
+            text = "Error encontrado: ${result.exception}",
+            color = Color.Green
+        )
         is ViewState.Success -> {
             BookList(result.data, actions)
         }
@@ -49,52 +52,60 @@ fun BookListScreen(viewModel: MainViewModel, actions: MainActions){
 
 @ExperimentalComposeUiApi
 @Composable
-fun BookList(bookList: List<BookItem>, actions: MainActions){
+fun BookList(bookList: List<BookItem>, actions: MainActions) {
     val search = remember {
         mutableStateOf("")
     }
     val listState = rememberLazyListState()
 
-    LazyColumn(state = listState ,
-                contentPadding = PaddingValues(top = 24.dp , bottom = 24.dp),
+    LazyColumn(
+        state = listState,
+        contentPadding = PaddingValues(top = 24.dp, bottom = 24.dp),
         modifier = Modifier.background(MaterialTheme.colors.background)
-    ){
+    ) {
 
         // title
         item {
-            Text(text = stringResource(id = R.string.text_title),
+            Text(
+                text = stringResource(id = R.string.text_title),
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.h5,
                 color = MaterialTheme.colors.primaryVariant,
                 maxLines = 2,
-                modifier = Modifier.padding(start = 16.dp , end= 24.dp , bottom = 24.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 24.dp, bottom = 24.dp)
             )
         }
         // search
         item {
-            TextInputField(label = stringResource(R.string.books_search) ,
+            TextInputField(label = stringResource(R.string.books_search),
                 value = search.value,
                 onValueChanged = {
                     search.value = it
                 })
         }
-        item { 
+        item {
             Spacer(modifier = Modifier.height(8.dp))
         }
         //search results title
-        item{
-            Text(text = "Famous books",
-            style= MaterialTheme.typography.subtitle1,
-            color = MaterialTheme.colors.primaryVariant.copy(0.5F),
-            textAlign = TextAlign.Start
+        item {
+            Text(
+                text = "Famous books",
+                style = MaterialTheme.typography.subtitle1,
+                color = MaterialTheme.colors.primaryVariant.copy(0.5F),
+                textAlign = TextAlign.Start
             )
         }
         // All books list view
-        items(bookList.filter{ it.title.contains(search.value , ignoreCase = true) } ){ book ->
-            Log.d("books ","libros son de tipo ${book.title}")
-            ItemBookList(book.title , book.authors.toString() ,book.thumbnailUrl ,book.categories , onItemClick = {
-                actions.gotoBookDetails.invoke(book.isbn)
-            })
+        items(bookList.filter { it.title.contains(search.value, ignoreCase = true) }) { book ->
+            Log.d("books ", "libros son de tipo ${book.title}")
+            ItemBookList(
+                book.title,
+                book.authors.toString(),
+                book.thumbnailUrl,
+                book.categories,
+                onItemClick = {
+                    actions.gotoBookDetails.invoke(book.isbn)
+                })
         }
 
     }

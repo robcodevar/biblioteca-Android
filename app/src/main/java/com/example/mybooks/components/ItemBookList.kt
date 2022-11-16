@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.mybooks.ui.theme.primary
-import com.example.mybooks.ui.theme.text
 import com.example.mybooks.ui.theme.typogra
 import com.example.mybooks.utils.coloredShadow
 import com.google.accompanist.flowlayout.FlowRow

@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.mybooks.view.BookDetailsScreen
 import com.example.mybooks.view.BookListScreen
+import com.example.mybooks.view.SplashScreen
 import com.example.mybooks.viewmodel.MainViewModel
 
 
@@ -32,7 +33,12 @@ fun NavGraph(){
     }
     val context = LocalContext.current
 
-    NavHost( navController = navController, startDestination = Screen.BookList.route){
+    NavHost( navController = navController, startDestination = Screen.Splash.route){
+        //Splash
+        composable(Screen.Splash.route) {
+            SplashScreen(navController)
+        }
+
         //Home
         composable(Screen.BookList.route) {
             val viewModel: MainViewModel = viewModel(

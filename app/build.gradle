@@ -80,7 +80,8 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.44")
     //Flow layout
     implementation 'com.google.accompanist:accompanist-flowlayout:0.14.0'
-
+    //system UI controller
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
 }
 // Allow references to generated code
 kapt {
