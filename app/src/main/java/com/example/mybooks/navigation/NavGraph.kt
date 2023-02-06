@@ -7,12 +7,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.mybooks.view.BookDetailsScreen
 import com.example.mybooks.view.BookListScreen
 import com.example.mybooks.view.SplashScreen
@@ -47,8 +45,8 @@ fun NavGraph(){
             viewModel.getAllBooks(context = context)
             BookListScreen(viewModel, actions)
         }
-            //task Details
-            composable(
+        //task Details
+        composable(
                 "${Screen.Details.route}/{id}",
                 arguments = listOf(navArgument(EndPoints.ID){type = NavType.StringType })
             ){
@@ -79,3 +77,32 @@ class MainActions(navController: NavController){
     }
 }
 
+private fun NavGraphBuilder.composable(
+    navCommand: NavCommand,
+    content: @Composable (NavBackStackEntry) -> Unit
+) {
+    composable(
+        route = navCommand.route
+    ) {
+        content(it)
+    }
+}
+
+sealed class NavCommand(
+    internal val screen: Screen,
+    internal val subRoute: String = "home"
+) {
+    class ContentType(screen: Screen) : NavCommand(screen)
+
+    class ContentTypeDetail(screen: Screen) :
+        NavCommand(screen, "detail") {
+        fun createRoute(itemId: Int) = "${screen.route}/$subRoute/$itemId"
+    }
+
+    val route = run {
+        listOf(screen.route)
+            .plus(subRoute)
+            .joinToString("/")
+    }
+
+}

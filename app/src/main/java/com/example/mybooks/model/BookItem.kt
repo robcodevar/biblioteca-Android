@@ -1,6 +1,7 @@
 package com.example.mybooks.model
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 
 @Serializable
